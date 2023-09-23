@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "627657054894",
+    "project_id": "nomad-flutter-final-second",
+    "storage_bucket": "nomad-flutter-final-second.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627657054894:android:cad4fb6873bec428852b3f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_semi_final"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1kXP_J6ouBLeTkoIUlpWU86eJWvZnmDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
