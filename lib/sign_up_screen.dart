@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_semi_final/Log_in_screen.dart';
 import 'package:flutter_semi_final/auth_container.dart';
 import 'package:flutter_semi_final/change_color_button.dart';
 import 'package:flutter_semi_final/home_screen.dart';
-import 'package:flutter_semi_final/sign_up_screen.dart';
 import 'package:go_router/go_router.dart';
 
-class LogInScreen extends StatefulWidget {
-  static const routeName = "LogIn";
-  static const routeURL = "/LogIn";
-  const LogInScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  static const routeName = "SignUp";
+  static const routeURL = "/SignUp";
+  const SignUpScreen({super.key});
 
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Map<String, String> formData = {};
 
-  void _onSubmitTap() {
+  void _onCreateTap() {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
@@ -28,8 +28,8 @@ class _LogInScreenState extends State<LogInScreen> {
     }
   }
 
-  void _onSignUpTap() {
-    context.pushNamed(SignUpScreen.routeName);
+  void _onLogInTap() {
+    context.pushNamed(LogInScreen.routeName);
   }
 
   void _onScaffoldTap() {
@@ -47,7 +47,7 @@ class _LogInScreenState extends State<LogInScreen> {
         body: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 36,
-            vertical: 30,
+            vertical: 40,
           ),
           child: Form(
             key: _formKey,
@@ -57,7 +57,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: 40,
                 ),
                 const Text(
-                  "Welcome!",
+                  "Join!",
                   style: TextStyle(
                     fontSize: 25,
                     color: Colors.black,
@@ -90,19 +90,19 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: 20,
                 ),
                 GestureDetector(
-                  onTap: _onSubmitTap,
+                  onTap: _onCreateTap,
                   child: const ChangeColorButton(
                     disabled: false,
-                    buttonName: 'Enter',
+                    buttonName: 'Create Account',
                     buttonSize: 1,
                   ),
                 ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: _onSignUpTap,
+                  onTap: _onLogInTap,
                   child: const ChangeColorButton(
                     disabled: false,
-                    buttonName: 'Create an account',
+                    buttonName: 'Log in',
                     buttonSize: 1,
                   ),
                 ),
