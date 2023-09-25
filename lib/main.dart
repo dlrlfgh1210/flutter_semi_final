@@ -38,6 +38,13 @@ class MyApp extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        bottomAppBarTheme: BottomAppBarTheme(
+          padding: const EdgeInsets.only(
+            top: 10,
+          ),
+          color: Colors.amber.shade100,
+          elevation: 0,
+        ),
         useMaterial3: true,
       ),
     );

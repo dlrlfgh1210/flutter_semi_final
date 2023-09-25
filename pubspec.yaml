@@ -43,6 +43,7 @@ dependencies:
   cloud_functions: ^4.4.1
   flutter_riverpod: ^2.4.0
   cloud_firestore: ^4.9.2
+  font_awesome_flutter: ^10.4.0
 
 dev_dependencies:
   flutter_test:
