@@ -26,7 +26,18 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       routerConfig: ref.watch(routerProvider),
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.light(
+          background: Colors.amber.shade100,
+        ),
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          backgroundColor: Colors.amber.shade100,
+          titleTextStyle: const TextStyle(
+            fontSize: 25,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         useMaterial3: true,
       ),
     );
