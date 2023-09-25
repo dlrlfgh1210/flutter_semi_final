@@ -9,7 +9,7 @@ import 'package:riverpod/riverpod.dart';
 final routerProvider = Provider(
   (ref) {
     return GoRouter(
-      initialLocation: "/post",
+      initialLocation: "/home",
       routes: [
         GoRoute(
           path: LogInScreen.routeURL,
