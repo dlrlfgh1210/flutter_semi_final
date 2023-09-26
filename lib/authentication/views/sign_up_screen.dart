@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_semi_final/Log_in_screen.dart';
-import 'package:flutter_semi_final/auth_container.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_semi_final/authentication/view_models/sign_up_view_model.dart';
+import 'package:flutter_semi_final/authentication/views/auth_container.dart';
+import 'package:flutter_semi_final/authentication/views/log_in_screen.dart';
 import 'package:flutter_semi_final/change_color_button.dart';
-import 'package:flutter_semi_final/home_screen.dart';
 import 'package:go_router/go_router.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   static const routeName = "SignUp";
   static const routeURL = "/SignUp";
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Map<String, String> formData = {};
@@ -23,9 +24,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        context.pushNamed(HomeScreen.routeName);
       }
     }
+    ref.read(signUpForm.notifier).state = {
+      "email": formData['email'],
+      "password": formData['password']
+    };
+    ref.read(signUpProvider.notifier).signUp(context);
   }
 
   void _onLogInTap() {
@@ -41,6 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return GestureDetector(
       onTap: _onScaffoldTap,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text("🔥MOOD🔥"),
         ),
@@ -91,8 +97,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 GestureDetector(
                   onTap: _onCreateTap,
-                  child: const ChangeColorButton(
-                    disabled: false,
+                  child: ChangeColorButton(
+                    disabled: ref.watch(signUpProvider).isLoading,
                     buttonName: 'Create Account',
                     buttonSize: 1,
                   ),

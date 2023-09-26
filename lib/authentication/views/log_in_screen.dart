@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_semi_final/auth_container.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_semi_final/authentication/view_models/log_in_view_model.dart';
+import 'package:flutter_semi_final/authentication/views/auth_container.dart';
+import 'package:flutter_semi_final/authentication/views/sign_up_screen.dart';
 import 'package:flutter_semi_final/change_color_button.dart';
-import 'package:flutter_semi_final/home_screen.dart';
-import 'package:flutter_semi_final/sign_up_screen.dart';
 import 'package:go_router/go_router.dart';
 
-class LogInScreen extends StatefulWidget {
+class LogInScreen extends ConsumerStatefulWidget {
   static const routeName = "LogIn";
   static const routeURL = "/LogIn";
   const LogInScreen({super.key});
 
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  ConsumerState<LogInScreen> createState() => _LogInScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _LogInScreenState extends ConsumerState<LogInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Map<String, String> formData = {};
@@ -23,9 +24,13 @@ class _LogInScreenState extends State<LogInScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        context.pushNamed(HomeScreen.routeName);
       }
     }
+    ref.read(logInProvider.notifier).logIn(
+          formData["email"]!,
+          formData["password"]!,
+          context,
+        );
   }
 
   void _onSignUpTap() {
@@ -41,6 +46,7 @@ class _LogInScreenState extends State<LogInScreen> {
     return GestureDetector(
       onTap: _onScaffoldTap,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text("🔥MOOD🔥"),
         ),
@@ -91,8 +97,8 @@ class _LogInScreenState extends State<LogInScreen> {
                 ),
                 GestureDetector(
                   onTap: _onSubmitTap,
-                  child: const ChangeColorButton(
-                    disabled: false,
+                  child: ChangeColorButton(
+                    disabled: ref.watch(logInProvider).isLoading,
                     buttonName: 'Enter',
                     buttonSize: 1,
                   ),

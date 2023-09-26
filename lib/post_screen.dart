@@ -4,8 +4,8 @@ import 'package:flutter_semi_final/mood_container.dart';
 import 'package:flutter_semi_final/post_form.dart';
 
 class PostScreen extends StatefulWidget {
-  static const routeName = "Post";
-  static const routeURL = "/Post";
+  static const routeName = "post";
+  static const routeURL = "/post";
   const PostScreen({super.key});
 
   @override
@@ -20,59 +20,66 @@ class _PostScreenState extends State<PostScreen> {
     });
   }
 
+  void _onScaffoldTap() {
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        title: const Text("🔥MOOD🔥"),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 36,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "How do you feel?",
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: _onScaffoldTap,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          title: const Text("🔥MOOD🔥"),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 36,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "How do you feel?",
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const PostForm(),
-              const SizedBox(
-                height: 30,
-              ),
-              const Text(
-                "What's your mood?",
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              MoodContainer(onMoodSelected: onMoodSelected),
-              const SizedBox(
-                height: 40,
-              ),
-              const Center(
-                child: ChangeColorButton(
-                  disabled: false,
-                  buttonName: "Post",
-                  buttonSize: 0.6,
+                const PostForm(),
+                const SizedBox(
+                  height: 30,
                 ),
-              ),
-            ],
+                const Text(
+                  "What's your mood?",
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                MoodContainer(onMoodSelected: onMoodSelected),
+                const SizedBox(
+                  height: 40,
+                ),
+                const Center(
+                  child: ChangeColorButton(
+                    disabled: false,
+                    buttonName: "Post",
+                    buttonSize: 0.6,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
