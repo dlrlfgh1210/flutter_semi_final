@@ -1,9 +1,9 @@
 import 'package:flutter_semi_final/authentication/repos/authentication_repo.dart';
 import 'package:flutter_semi_final/authentication/views/sign_up_screen.dart';
-import 'package:flutter_semi_final/home_screen.dart';
+import 'package:flutter_semi_final/home/views/home_screen.dart';
 import 'package:flutter_semi_final/authentication/views/log_in_screen.dart';
 import 'package:flutter_semi_final/navigation/main_navigation_screen.dart';
-import 'package:flutter_semi_final/post_screen.dart';
+import 'package:flutter_semi_final/post/views/post_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/riverpod.dart';
 

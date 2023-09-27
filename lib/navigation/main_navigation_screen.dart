@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_semi_final/home_screen.dart';
+import 'package:flutter_semi_final/home/views/home_screen.dart';
 import 'package:flutter_semi_final/navigation/nav_tab.dart';
-import 'package:flutter_semi_final/post_screen.dart';
+import 'package:flutter_semi_final/post/views/post_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
