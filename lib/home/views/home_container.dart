@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeContainer extends StatefulWidget {
+class HomeContainer extends ConsumerStatefulWidget {
   final String mood, detail, uploadTime;
   const HomeContainer({
     super.key,
@@ -11,10 +12,10 @@ class HomeContainer extends StatefulWidget {
   });
 
   @override
-  State<HomeContainer> createState() => _HomeContainerState();
+  ConsumerState<HomeContainer> createState() => _HomeContainerState();
 }
 
-class _HomeContainerState extends State<HomeContainer> {
+class _HomeContainerState extends ConsumerState<HomeContainer> {
   void _onDeleteTap() {
     showDialog(
       context: context,
