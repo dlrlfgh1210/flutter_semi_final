@@ -27,22 +27,22 @@ class _HomeContainerState extends ConsumerState<HomeContainer> {
           actions: [
             TextButton(
               onPressed: () async {
-                QuerySnapshot querySnapshot =
-                    await FirebaseFirestore.instance.collection("posts").get();
-
-                for (QueryDocumentSnapshot document in querySnapshot.docs) {
-                  String documentId = document.id;
-                  FirebaseFirestore.instance
-                      .collection("posts")
-                      .doc(documentId)
-                      .delete();
-                }
+                await FirebaseFirestore.instance
+                    .collection("posts")
+                    .where("detail", isEqualTo: widget.detail)
+                    .get()
+                    .then((querySnapshot) {
+                  for (var document in querySnapshot.docs) {
+                    document.reference.delete();
+                  }
+                });
+                context.pop();
               },
               child: const Text("삭제"),
             ),
             TextButton(
               onPressed: () {
-                context.pop();
+                Navigator.of(context).pop();
               },
               child: const Text("취소"),
             ),
