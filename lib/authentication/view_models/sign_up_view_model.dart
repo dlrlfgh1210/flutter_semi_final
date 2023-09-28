@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_semi_final/authentication/repos/authentication_repo.dart';
-import 'package:flutter_semi_final/firebase_error_snack.dart';
-import 'package:go_router/go_router.dart';
 
 class SignUpViewModel extends AsyncNotifier<void> {
   late final AuthenticationRepository _authenticationRepository;
@@ -22,11 +20,6 @@ class SignUpViewModel extends AsyncNotifier<void> {
         form["password"],
       ),
     );
-    if (state.hasError) {
-      showFirebaseErrorSnack(context, state.error);
-    } else {
-      context.go("/home");
-    }
   }
 }
 

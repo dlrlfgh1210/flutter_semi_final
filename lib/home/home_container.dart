@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -25,8 +26,17 @@ class _HomeContainerState extends ConsumerState<HomeContainer> {
           content: const Text("이 항목을 삭제하시겠습니까?"),
           actions: [
             TextButton(
-              onPressed: () {
-                context.pop();
+              onPressed: () async {
+                QuerySnapshot querySnapshot =
+                    await FirebaseFirestore.instance.collection("posts").get();
+
+                for (QueryDocumentSnapshot document in querySnapshot.docs) {
+                  String documentId = document.id;
+                  FirebaseFirestore.instance
+                      .collection("posts")
+                      .doc(documentId)
+                      .delete();
+                }
               },
               child: const Text("삭제"),
             ),

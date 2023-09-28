@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_semi_final/home/views/home_container.dart';
+import 'package:flutter_semi_final/home/home_container.dart';
 import 'package:flutter_semi_final/post/view_models/post_view_model.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -44,7 +44,7 @@ class HomeScreen extends ConsumerWidget {
                       );
                     }),
                     separatorBuilder: (context, index) => Container(
-                      height: 30,
+                      height: 20,
                     ),
                     itemCount: posts.length,
                   ),

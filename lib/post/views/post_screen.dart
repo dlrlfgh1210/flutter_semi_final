@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_semi_final/change_color_button.dart';
+import 'package:flutter_semi_final/home/home_screen.dart';
 import 'package:flutter_semi_final/post/view_models/upload_post_view_model.dart';
 import 'package:flutter_semi_final/post/views/mood_container.dart';
+import 'package:go_router/go_router.dart';
 
 class PostScreen extends ConsumerStatefulWidget {
   static const routeName = "post";
@@ -43,6 +45,7 @@ class _PostScreenState extends ConsumerState<PostScreen> {
         );
     _postEditingController.clear();
     selectedMoodIndex = -1;
+    context.pushNamed(HomeScreen.routeName);
   }
 
   @override
