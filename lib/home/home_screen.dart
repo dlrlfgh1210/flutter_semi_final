@@ -43,7 +43,8 @@ class HomeScreen extends ConsumerWidget {
                             child: HomeContainer(
                               mood: posts[index].mood,
                               detail: posts[index].detail,
-                              uploadTime: posts[index].createdAt.toString(),
+                              uploadTime:
+                                  "${DateTime.now().month}월 ${DateTime.now().day}일",
                             ),
                           );
                         }),

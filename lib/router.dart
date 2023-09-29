@@ -4,6 +4,7 @@ import 'package:flutter_semi_final/home/home_screen.dart';
 import 'package:flutter_semi_final/authentication/views/log_in_screen.dart';
 import 'package:flutter_semi_final/navigation/main_navigation_screen.dart';
 import 'package:flutter_semi_final/post/views/post_screen.dart';
+import 'package:flutter_semi_final/setting/setting_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/riverpod.dart';
 
@@ -49,6 +50,11 @@ final routerProvider = Provider(
           path: PostScreen.routeURL,
           name: PostScreen.routeName,
           builder: (context, state) => const PostScreen(),
+        ),
+        GoRoute(
+          path: SettingScreen.routeURL,
+          name: SettingScreen.routeName,
+          builder: (context, state) => const SettingScreen(),
         ),
       ],
     );

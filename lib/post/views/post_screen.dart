@@ -4,6 +4,8 @@ import 'package:flutter_semi_final/change_color_button.dart';
 import 'package:flutter_semi_final/home/home_screen.dart';
 import 'package:flutter_semi_final/post/view_models/upload_post_view_model.dart';
 import 'package:flutter_semi_final/post/views/mood_container.dart';
+import 'package:flutter_semi_final/setting/setting_screen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 class PostScreen extends ConsumerStatefulWidget {
@@ -35,6 +37,10 @@ class _PostScreenState extends ConsumerState<PostScreen> {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  void _onSettingTap() {
+    context.pushNamed(SettingScreen.routeName);
+  }
+
   Future<void> _onPostTap() async {
     String selectedMood =
         selectedMoodIndex >= 0 ? moods[selectedMoodIndex] : "";
@@ -45,7 +51,7 @@ class _PostScreenState extends ConsumerState<PostScreen> {
         );
     _postEditingController.clear();
     selectedMoodIndex = -1;
-    context.pushNamed(HomeScreen.routeName);
+    context.pushReplacementNamed(HomeScreen.routeName);
   }
 
   @override
@@ -62,6 +68,14 @@ class _PostScreenState extends ConsumerState<PostScreen> {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text("🔥MOOD🔥"),
+          actions: [
+            IconButton(
+              onPressed: _onSettingTap,
+              icon: const FaIcon(
+                FontAwesomeIcons.gear,
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(
