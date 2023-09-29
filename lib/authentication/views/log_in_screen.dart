@@ -24,13 +24,13 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        ref.read(logInProvider.notifier).logIn(
+              formData["email"]!,
+              formData["password"]!,
+              context,
+            );
       }
     }
-    ref.read(logInProvider.notifier).logIn(
-          formData["email"]!,
-          formData["password"]!,
-          context,
-        );
   }
 
   void _onSignUpTap() {
