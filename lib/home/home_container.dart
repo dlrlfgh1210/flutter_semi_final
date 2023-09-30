@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_semi_final/edit_post_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeContainer extends ConsumerStatefulWidget {
@@ -39,6 +40,23 @@ class _HomeContainerState extends ConsumerState<HomeContainer> {
                 context.pop();
               },
               child: const Text("삭제"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditPostScreen(
+                      moodController: TextEditingController(text: widget.mood),
+                      detailController:
+                          TextEditingController(text: widget.detail),
+                      initialMood: widget.mood,
+                      initialDetail: widget.detail,
+                    ),
+                  ),
+                );
+              },
+              child: const Text("수정"),
             ),
             TextButton(
               onPressed: () {
