@@ -7,19 +7,17 @@ import 'package:flutter_semi_final/post/repos/post_repo.dart';
 class PostViewModel extends AsyncNotifier<List<PostModel>> {
   late final PostRepository _postRepository;
   List<PostModel> _list = [];
-  int? lateItemCreatedAt;
 
-  Future<List<PostModel>> _fetchPosts({int? lastItemCreatedAt}) async {
-    final result = await _postRepository.fetchPosts(
-      lastItemCreatedAt: lastItemCreatedAt ?? lateItemCreatedAt,
-    );
-    lateItemCreatedAt = lateItemCreatedAt;
-    final posts = result.docs.map((doc) {
-      return PostModel.fromJson(
-        doc.data(),
-      );
-    });
-    return posts.toList();
+  Future<List<PostModel>> _fetchPosts() async {
+    final posts = await _postRepository.fetchPosts();
+    return posts.docs
+        .map(
+          (doc) => PostModel.fromJson(
+            doc.data(),
+            doc.id,
+          ),
+        )
+        .toList();
   }
 
   Future<void> refetch() async {
@@ -30,13 +28,8 @@ class PostViewModel extends AsyncNotifier<List<PostModel>> {
   @override
   FutureOr<List<PostModel>> build() async {
     _postRepository = ref.read(postRepo);
-    _list = await _fetchPosts(lastItemCreatedAt: null);
+    _list = await _fetchPosts();
     return _list;
-  }
-
-  fetchNextPage() async {
-    final nextPage = await _fetchPosts(lastItemCreatedAt: _list.last.createdAt);
-    state = AsyncValue.data([..._list, ...nextPage]);
   }
 }
 

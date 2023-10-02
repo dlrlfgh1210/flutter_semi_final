@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_semi_final/change_color_button.dart';
 import 'package:flutter_semi_final/home/home_screen.dart';
-import 'package:flutter_semi_final/post/view_models/upload_post_view_model.dart';
+import 'package:flutter_semi_final/post/view_models/create_post_view_model.dart';
 import 'package:flutter_semi_final/post/views/mood_container.dart';
 import 'package:flutter_semi_final/setting/setting_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -44,7 +44,7 @@ class _PostScreenState extends ConsumerState<PostScreen> {
   Future<void> _onPostTap() async {
     String selectedMood =
         selectedMoodIndex >= 0 ? moods[selectedMoodIndex] : "";
-    ref.read(uploadPostProvider.notifier).uploadMood(
+    ref.read(createPostProvider.notifier).createMood(
           _postEditingController.text,
           selectedMood,
           context,
@@ -147,7 +147,7 @@ class _PostScreenState extends ConsumerState<PostScreen> {
                   child: GestureDetector(
                     onTap: _onPostTap,
                     child: ChangeColorButton(
-                      disabled: ref.watch(uploadPostProvider).isLoading,
+                      disabled: ref.watch(createPostProvider).isLoading,
                       buttonName: "Post",
                       buttonSize: 0.6,
                     ),

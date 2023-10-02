@@ -15,20 +15,20 @@ List<String> moods = [
   "😑",
 ];
 
-class EditMoodContainer extends StatefulWidget {
+class UpdateMoodContainer extends StatefulWidget {
   final ValueChanged<int> onMoodEdited;
   final TextEditingController moodController;
-  const EditMoodContainer({
+  const UpdateMoodContainer({
     super.key,
     required this.onMoodEdited,
     required this.moodController,
   });
 
   @override
-  State<EditMoodContainer> createState() => _EditMoodContainerState();
+  State<UpdateMoodContainer> createState() => _UpdateMoodContainerState();
 }
 
-class _EditMoodContainerState extends State<EditMoodContainer> {
+class _UpdateMoodContainerState extends State<UpdateMoodContainer> {
   int selectedIndex = -1;
 
   @override

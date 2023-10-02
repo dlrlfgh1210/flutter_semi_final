@@ -1,10 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_semi_final/edit_post_screen.dart';
-import 'package:go_router/go_router.dart';
 
-class HomeContainer extends ConsumerStatefulWidget {
+class HomeContainer extends StatelessWidget {
   final String mood, detail, uploadTime;
   const HomeContainer({
     super.key,
@@ -14,142 +10,82 @@ class HomeContainer extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<HomeContainer> createState() => _HomeContainerState();
-}
-
-class _HomeContainerState extends ConsumerState<HomeContainer> {
-  void _onDeleteTap() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("삭제 확인"),
-          content: const Text("이 항목을 삭제하시겠습니까?"),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                await FirebaseFirestore.instance
-                    .collection("posts")
-                    .where("detail", isEqualTo: widget.detail)
-                    .get()
-                    .then((querySnapshot) {
-                  for (var document in querySnapshot.docs) {
-                    document.reference.delete();
-                  }
-                });
-                context.pop();
-              },
-              child: const Text("삭제"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditPostScreen(
-                      moodController: TextEditingController(text: widget.mood),
-                      detailController:
-                          TextEditingController(text: widget.detail),
-                      initialMood: widget.mood,
-                      initialDetail: widget.detail,
-                    ),
-                  ),
-                );
-              },
-              child: const Text("수정"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("취소"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: _onDeleteTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 400,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 2,
-                  offset: Offset(-2, 5),
-                )
-              ],
-              border: Border.all(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 400,
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            boxShadow: const [
+              BoxShadow(
                 color: Colors.black,
-                width: 2,
-                style: BorderStyle.solid,
-              ),
-              color: Colors.green.shade700,
-              borderRadius: BorderRadius.circular(10),
+                blurRadius: 2,
+                offset: Offset(-2, 5),
+              )
+            ],
+            border: Border.all(
+              color: Colors.black,
+              width: 2,
+              style: BorderStyle.solid,
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 25,
-                vertical: 10,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Text(
-                        "Mood:",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+            color: Colors.green.shade700,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 25,
+              vertical: 10,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      "Mood:",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        widget.mood,
-                        style: const TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    widget.detail,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
                     ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      mood,
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  detail,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(
-            height: 15,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        Text(
+          uploadTime,
+          style: TextStyle(
+            color: Colors.grey.shade500,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
           ),
-          Text(
-            widget.uploadTime,
-            style: TextStyle(
-              color: Colors.grey.shade500,
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:flutter_semi_final/post/models/post_model.dart';
 import 'package:flutter_semi_final/post/repos/post_repo.dart';
 import 'package:flutter_semi_final/post/view_models/post_view_model.dart';
 
-class UploadPostViewModel extends AsyncNotifier<void> {
+class CreatePostViewModel extends AsyncNotifier<void> {
   late final PostRepository _postRepository;
 
   @override
@@ -14,18 +14,20 @@ class UploadPostViewModel extends AsyncNotifier<void> {
     _postRepository = ref.read(postRepo);
   }
 
-  Future<void> uploadMood(
-      String post, String mood, BuildContext context) async {
+  Future<void> createMood(
+    String post,
+    String mood,
+    BuildContext context,
+  ) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
       () async {
-        final postId = DateTime.now().millisecondsSinceEpoch;
-
-        await _postRepository.savePost(
+        await _postRepository.createPost(
           PostModel(
+            id: '',
             detail: post,
             mood: mood,
-            createdAt: postId,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
           ),
         );
         await ref.read(postProvider.notifier).refetch();
@@ -34,6 +36,6 @@ class UploadPostViewModel extends AsyncNotifier<void> {
   }
 }
 
-final uploadPostProvider = AsyncNotifierProvider<UploadPostViewModel, void>(
-  () => UploadPostViewModel(),
+final createPostProvider = AsyncNotifierProvider<CreatePostViewModel, void>(
+  () => CreatePostViewModel(),
 );

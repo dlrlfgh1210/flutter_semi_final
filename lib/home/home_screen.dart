@@ -1,15 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_semi_final/post/view_models/update_post_view_model.dart';
+import 'package:flutter_semi_final/update_post_screen.dart';
 import 'package:flutter_semi_final/home/home_container.dart';
+import 'package:flutter_semi_final/post/view_models/delete_post_view_model.dart';
 import 'package:flutter_semi_final/post/view_models/post_view_model.dart';
+import 'package:go_router/go_router.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = "home";
   static const routeURL = "/home";
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  void _onLongPress(String postId, String mood, String detail) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("삭제 확인"),
+          content: const Text("이 항목을 삭제하시겠습니까?"),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                await ref.read(deletePostProvider.notifier).deletePost(
+                      postId,
+                      context,
+                    );
+                if (context.mounted) {
+                  context.pop();
+                }
+              },
+              child: const Text("삭제"),
+            ),
+            TextButton(
+              onPressed: () async {
+                final updatedData = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UpdatePostScreen(
+                      moodController: TextEditingController(text: mood),
+                      detailController: TextEditingController(text: detail),
+                      initialMood: mood,
+                      initialDetail: detail,
+                      postId: postId,
+                    ),
+                  ),
+                );
+
+                if (updatedData != null &&
+                    updatedData.containsKey("newMood") &&
+                    updatedData.containsKey("newDetail")) {
+                  final newMood = updatedData["newMood"];
+                  final newDetail = updatedData["newDetail"];
+
+                  await ref
+                      .read(updatePostProvider.notifier)
+                      .updatePost(postId, newMood, newDetail);
+
+                  await ref.read(postProvider.notifier).refetch();
+                }
+              },
+              child: const Text("수정"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("취소"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ref.watch(postProvider).when(
           loading: () => const Center(
             child: CircularProgressIndicator(),
@@ -40,11 +111,18 @@ class HomeScreen extends ConsumerWidget {
                             padding: const EdgeInsets.symmetric(
                               horizontal: 30,
                             ),
-                            child: HomeContainer(
-                              mood: posts[index].mood,
-                              detail: posts[index].detail,
-                              uploadTime:
-                                  "${DateTime.now().month}월 ${DateTime.now().day}일",
+                            child: GestureDetector(
+                              onLongPress: () => _onLongPress(
+                                posts[index].id,
+                                posts[index].mood,
+                                posts[index].detail,
+                              ),
+                              child: HomeContainer(
+                                mood: posts[index].mood,
+                                detail: posts[index].detail,
+                                uploadTime:
+                                    "${DateTime.now().month}월 ${DateTime.now().day}일",
+                              ),
                             ),
                           );
                         }),

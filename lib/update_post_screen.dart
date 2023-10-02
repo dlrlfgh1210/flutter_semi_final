@@ -1,31 +1,30 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_semi_final/edit_mood_container.dart';
-import 'package:flutter_semi_final/home/home_screen.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_semi_final/update_mood_container.dart';
 
-class EditPostScreen extends ConsumerStatefulWidget {
+class UpdatePostScreen extends ConsumerStatefulWidget {
   static const routeName = "edit";
   static const routeURL = "/edit";
   final TextEditingController moodController;
   final TextEditingController detailController;
   final String initialMood;
   final String initialDetail;
+  final String postId; // postId 매개변수 추가
 
-  const EditPostScreen({
-    super.key,
+  const UpdatePostScreen({
+    Key? key,
     required this.moodController,
     required this.detailController,
     required this.initialMood,
     required this.initialDetail,
-  });
+    required this.postId, // postId 추가
+  }) : super(key: key);
 
   @override
-  ConsumerState<EditPostScreen> createState() => _EditPostScreenState();
+  ConsumerState<UpdatePostScreen> createState() => _UpdatePostScreenState();
 }
 
-class _EditPostScreenState extends ConsumerState<EditPostScreen> {
+class _UpdatePostScreenState extends ConsumerState<UpdatePostScreen> {
   void onMoodEdited(int index) {}
 
   @override
@@ -33,7 +32,7 @@ class _EditPostScreenState extends ConsumerState<EditPostScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("Edit Post"),
+        title: const Text("Update Post"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -104,7 +103,7 @@ class _EditPostScreenState extends ConsumerState<EditPostScreen> {
             const SizedBox(
               height: 20,
             ),
-            EditMoodContainer(
+            UpdateMoodContainer(
               onMoodEdited: onMoodEdited,
               moodController: widget.moodController,
             ),
@@ -130,14 +129,10 @@ class _EditPostScreenState extends ConsumerState<EditPostScreen> {
                     final newMood = widget.moodController.text;
                     final newDetail = widget.detailController.text;
 
-                    final postRef = FirebaseFirestore.instance
-                        .collection("posts")
-                        .doc("/* 여기에 문서 ID 입력 */");
-                    await postRef.update({
-                      "mood": newMood,
-                      "detail": newDetail,
+                    Navigator.pop(context, {
+                      "newMood": newMood,
+                      "newDetail": newDetail,
                     });
-                    context.pushReplacementNamed(HomeScreen.routeName);
                   },
                   child: const Text("저장"),
                 ),

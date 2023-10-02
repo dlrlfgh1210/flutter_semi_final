@@ -5,22 +5,26 @@ import 'package:riverpod/riverpod.dart';
 class PostRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<void> savePost(PostModel data) async {
+  Future<void> createPost(PostModel data) async {
     await _db.collection("posts").add(data.toJson());
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> fetchPosts({
-    int? lastItemCreatedAt,
-  }) {
-    final query = _db
-        .collection("posts")
-        .orderBy("createdAt", descending: true)
-        .limit(10);
-    if (lastItemCreatedAt == null) {
-      return query.get();
-    } else {
-      return query.startAfter([lastItemCreatedAt]).get();
-    }
+  Future<void> deletePost(String postId) async {
+    await _db.collection("posts").doc(postId).delete();
+  }
+
+  Future<void> updatePost(
+      String postId, String newMood, String newDetail) async {
+    await _db.collection("posts").doc(postId).update({
+      "mood": newMood,
+      "detail": newDetail,
+    });
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchPosts() {
+    final query =
+        _db.collection("posts").orderBy("createdAt", descending: true);
+    return query.get();
   }
 }
 
