@@ -120,8 +120,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: HomeContainer(
                                 mood: posts[index].mood,
                                 detail: posts[index].detail,
-                                uploadTime:
-                                    "${DateTime.now().month}월 ${DateTime.now().day}일",
+                                uploadTime: posts[index].createdAt,
                               ),
                             ),
                           );
