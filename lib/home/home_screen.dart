@@ -30,6 +30,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 await ref.read(deletePostProvider.notifier).deletePost(
                       postId,
                       context,
+                    
                     );
                 if (context.mounted) {
                   context.pop();
